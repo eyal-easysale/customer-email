@@ -15,8 +15,15 @@ def service_call_add():
     # Create the response object
     response = {
         'callId': callId,
-        'data': form_data
+        'data': form_data,
+        "Error": {
+        "ErrorCode": 0,
+        "ErrorMessage": 'errorMessage',
+        "ErrorNote": 'erroNote',
+        "StopWatch": {}
     }
+    }
+
 
     # Send the response
     return jsonify(response), 200
