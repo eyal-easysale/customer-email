@@ -16,12 +16,12 @@ def service_call_add():
     response = {
         'callId': callId,
         'data': form_data,
-        "Error": {
-        "ErrorCode": 0,
-        "ErrorMessage": 'errorMessage',
-        "ErrorNote": 'erroNote',
-        "StopWatch": {}
-    }
+        # "Error": {
+        # "ErrorCode": 0,
+        # "ErrorMessage": 'errorMessage',
+        # "ErrorNote": 'erroNote',
+        # "StopWatch": {}
+    # }
     }
 
 
