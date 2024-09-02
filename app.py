@@ -1,11 +1,8 @@
-# import random
 from flask import Flask, jsonify, request
-app = Flask(__name__)
 from flask_mail import Mail, Message
+import re
 
 app = Flask(__name__)
-# app.secret_key = 'fghdfghdfefbgrgbrgbdfgbndfgndfnrhwrglwehg;qeorghpoeuhrg9q3h39t3y355723yt3giuerhiefvbiaefbgh'
-
 
 # Configuration for mail server
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
@@ -15,32 +12,9 @@ app.config['MAIL_USERNAME'] = 'masofonim.help@gmail.com'
 app.config['MAIL_PASSWORD'] = 'djzt bqwl tcrw kihm'
 mail = Mail(app)
 
-# @app.route('/api/ServiceCalls/ServiceCallAdd', methods=['POST'])
-# def service_call_add():
-#     form_data = request.json
-
-#     # Generate a dummy callId for the purpose of this example
-#     callId = random.randint(1, 100)
-
-#     # Log the received form data
-#     print('Form Data:', form_data)
-
-#     # Create the response object
-#     response = {
-#         'callId': callId,
-#         'data': form_data,
-#         # "Error": {
-#         # "ErrorCode": 0,
-#         # "ErrorMessage": 'errorMessage',
-#         # "ErrorNote": 'erroNote',
-#         # "StopWatch": {}
-#     # }
-#     }
-
-
-#     # Send the response
-#     return jsonify(response), 200
-
+def is_valid_email(email):
+    # Simple regex for validating an email
+    return re.match(r"[^@]+@[^@]+\.[^@]+", email)
 
 @app.route('/receive-data', methods=['POST'])
 def receive_data_and_send_email():
@@ -52,14 +26,19 @@ def receive_data_and_send_email():
     name = data.get('name')
     callId = data.get('callId')
 
+    if not email or not is_valid_email(email):
+        return jsonify({"error": "Invalid or missing email address"}), 400
+
     # Process the data as needed
     print(f"Received email: {email}, name: {name}, callId: {callId}")
 
     # Prepare the email content
     try:
-        msg = Message(subject=f"נפתחה עבורך קריאת שירות מספר: {callId}",
-                      sender=('קריאת שירות ב easy-sale', 'masofonim.help@gmail.com'),
-                      recipients=[email])
+        msg = Message(
+            subject=f"נפתחה עבורך קריאת שירות מספר: {callId}",
+            sender=('קריאת שירות ב easy-sale', 'masofonim.help@gmail.com'),
+            recipients=[email]
+        )
 
         msg.body = (
             f"נפתחה עבורך קריאת שירות מספר ,{name} {callId} במערכת easy-sale.\n\n"
