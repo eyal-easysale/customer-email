@@ -13,12 +13,13 @@ app.config['MAIL_PASSWORD'] = 'djzt bqwl tcrw kihm'
 mail = Mail(app)
 
 def is_valid_email(email):
-    # Simple regex for validating an email
+    """Simple regex for validating an email"""
     return re.match(r"[^@]+@[^@]+\.[^@]+", email)
 
 @app.route('/receive-data', methods=['POST'])
 def receive_data_and_send_email():
     data = request.get_json()
+    
     if not data:
         return jsonify({"error": "No data received"}), 400
 
@@ -48,14 +49,15 @@ def receive_data_and_send_email():
         "זמן מענה ראשוני משוער: עד 3 שעות בהתאם לזמני פעילות התמיכה.\n\n"
         "תודה שבחרת easy-sale :)\n\n"
         "אין להשיב למייל זה."
-)
+        )
 
         # Send the email
         mail.send(msg)
         return jsonify({"message": "Data received and email sent successfully"}), 200
+
     except Exception as e:
         print(f"Failed to send email: {e}")
         return jsonify({"error": "Failed to send email"}), 500
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
