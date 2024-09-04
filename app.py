@@ -22,6 +22,7 @@ def is_valid_email(email):
 @app.route('/receive-data', methods=['POST'])
 def receive_data_and_send_email():
     data = request.get_json()
+    print(f"Received data: {data}")
     
     if not data:
         return jsonify({"error": "No data received"}), 400
@@ -29,6 +30,7 @@ def receive_data_and_send_email():
     email = data.get('email')
     name = data.get('name')
     callId = data.get('callId')
+    print(f"Email: {email}, Name: {name}, Call ID: {callId}")
 
     if not email or not is_valid_email(email):
         return jsonify({"error": "Invalid or missing email address"}), 400
@@ -38,6 +40,7 @@ def receive_data_and_send_email():
 
     # Prepare the email content
     try:
+        print("Preparing to send email...")
         msg = Message(
             subject=f"נפתחה עבורך קריאת שירות מספר: {callId}",
             sender=('קריאת שירות ב easy-sale', 'masofonim.help@gmail.com'),
@@ -56,6 +59,7 @@ def receive_data_and_send_email():
 
         # Send the email
         mail.send(msg)
+        print("Email sent successfully!")
         return jsonify({"message": "Data received and email sent successfully"}), 200
 
     except Exception as e:
