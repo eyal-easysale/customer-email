@@ -5,7 +5,7 @@ from flask_cors import CORS
 
 
 app = Flask(__name__)
-CORS(app, resources={r"/*": {"origins": ["https://orly503.wixsite.com"]}})
+CORS(app, resources={r"/*": {"origins": "*"}})
 
 # Configuration for mail server
 app.config['MAIL_SERVER'] = 'smtp.gmail.com'
@@ -45,13 +45,13 @@ def receive_data_and_send_email():
         )
 
         msg.body = (
-        f"נפתחה עבורך קריאת שירות מספר {callId}, {name}, במערכת easy-sale.\n\n"
-        "יש לשמור את מספר הקריאה על מנת לזרז את תהליך התמיכה ולמענה מהיר יותר.\n\n"
+        f"נפתחה עבורך קריאת שירות מספר {callId} ,{name}\n\n"
+        ".יש לשמור את מספר הקריאה על מנת לזרז את תהליך התמיכה ולמענה מהיר יותר\n\n"
         "זמני פעילות התמיכה:\n"
-        "ימים א-ה, משעה 09:00 - 17:00.\n\n"
-        "זמן מענה ראשוני משוער: עד 3 שעות בהתאם לזמני פעילות התמיכה.\n\n"
-        "תודה שבחרת easy-sale :)\n\n"
-        "אין להשיב למייל זה."
+        "ימים א-ה, משעה 09:00 - 17:00\n\n"
+        ".זמן מענה ראשוני משוער: עד 3 שעות בהתאם לזמני פעילות התמיכה\n\n"
+        ".תודה שבחרת easy-sale :)\n\n"
+        ".אין להשיב למייל זה"
         )
 
         # Send the email
